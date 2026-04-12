@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SSRO // Labs is a non-profit personal cybersecurity initiative for sharing tools, scripts, automation projects, and security research.">
+  <meta name="theme-color" content="#000000">
+  <title>SSRO // Labs | Where Security Meets Automation</title>
+  <link rel="icon" href="assets/ssro-labs-icon.png" type="image/png">
+  <style>
+    :root {
+      --black: #000000;
+      --black-soft: #070707;
+      --black-panel: #0c0c0c;
+      --white: #ffffff;
+      --white-80: rgba(255, 255, 255, 0.8);
+      --white-64: rgba(255, 255, 255, 0.64);
+      --white-40: rgba(255, 255, 255, 0.4);
+      --white-16: rgba(255, 255, 255, 0.16);
+      --white-10: rgba(255, 255, 255, 0.1);
+      --red: #e10600;
+      --red-deep: #9f0500;
+      --red-soft: rgba(225, 6, 0, 0.18);
+      --red-line: rgba(225, 6, 0, 0.44);
+      --shadow: 0 22px 50px rgba(0, 0, 0, 0.62);
+      --max: 1160px;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        var(--black);
+      background-size: 64px 64px;
+      color: var(--white);
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(225, 6, 0, 0.18), transparent 28%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.92) 76%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+      background-size: 100% 4px;
+      opacity: 0.45;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--white-10);
+      background: rgba(0, 0, 0, 0.86);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-wrap {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--red-line);
+      border-radius: var(--radius);
+      object-fit: cover;
+      box-shadow: 0 0 22px rgba(225, 6, 0, 0.2);
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .brand-name {
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .brand-sub {
+      color: var(--white-64);
+      font-size: 0.76rem;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      color: var(--white-64);
+      font-size: 0.92rem;
+      font-weight: 650;
+      padding: 9px 12px;
+      transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      border-color: var(--red-line);
+      background: var(--red-soft);
+      color: var(--white);
+      outline: none;
+    }
+
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--white-16);
+      border-radius: var(--radius);
+      background: var(--black);
+      color: var(--white);
+      cursor: pointer;
+    }
+
+    .menu-toggle span,
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--white);
+      content: "";
+      transition: transform 160ms ease, opacity 160ms ease;
+    }
+
+    .menu-toggle span {
+      position: relative;
+    }
+
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      position: absolute;
+      left: 0;
+    }
+
+    .menu-toggle span::before {
+      top: -6px;
+    }
+
+    .menu-toggle span::after {
+      top: 6px;
+    }
+
+    .menu-toggle[aria-expanded="true"] span {
+      background: transparent;
+    }
+
+    .menu-toggle[aria-expanded="true"] span::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"] span::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    main {
+      position: relative;
+    }
+
+    .section {
+      position: relative;
+      padding: 92px 0;
+      scroll-margin-top: 92px;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 74vh;
+      display: grid;
+      align-items: center;
+      padding: 72px 0 52px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--white-10);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.82) 42%, rgba(0, 0, 0, 0.38) 78%, rgba(0, 0, 0, 0.9) 100%),
+        url("assets/ssro-lab-banner.png") center right / min(980px, 82vw) auto no-repeat;
+      opacity: 0.92;
+      z-index: -1;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      opacity: 0.65;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.94fr) minmax(280px, 0.56fr);
+      align-items: center;
+      gap: 44px;
+    }
+
+    .hero-copy,
+    .section-heading,
+    .about-copy,
+    .card,
+    .repository,
+    .contact-card {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--white-80);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: var(--red);
+      box-shadow: 0 0 18px rgba(225, 6, 0, 0.8);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+      overflow-wrap: anywhere;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 12px;
+      color: var(--white);
+      font-size: 4.35rem;
+      font-weight: 900;
+      line-height: 0.96;
+    }
+
+    .primary-tagline {
+      margin-bottom: 8px;
+      color: var(--white);
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .secondary-tagline {
+      margin-bottom: 24px;
+      color: var(--red);
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .hero-intro {
+      max-width: 640px;
+      margin-bottom: 34px;
+      color: var(--white-80);
+      font-size: 1.06rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      border: 1px solid var(--red);
+      border-radius: var(--radius);
+      font-size: 0.96rem;
+      font-weight: 800;
+      padding: 12px 18px;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      outline: none;
+      box-shadow: 0 14px 26px rgba(225, 6, 0, 0.18);
+    }
+
+    .button.primary {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .button.primary:hover,
+    .button.primary:focus-visible {
+      background: var(--white);
+      border-color: var(--white);
+      color: var(--black);
+    }
+
+    .button.secondary {
+      background: rgba(0, 0, 0, 0.56);
+      color: var(--white);
+    }
+
+    .button.secondary:hover,
+    .button.secondary:focus-visible {
+      background: var(--red-soft);
+      color: var(--white);
+    }
+
+    .hero-panel {
+      border: 1px solid var(--white-16);
+      border-radius: var(--radius);
+      background: rgba(0, 0, 0, 0.62);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-panel img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-bottom: 1px solid var(--white-10);
+      opacity: 0.96;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 1px;
+      background: var(--white-10);
+    }
+
+    .signal-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(0, 0, 0, 0.78);
+      padding: 13px 16px;
+      color: var(--white-64);
+      font-size: 0.86rem;
+    }
+
+    .signal-item strong {
+      color: var(--white);
+      font-weight: 800;
+    }
+
+    .section-heading {
+      max-width: 720px;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      margin-bottom: 8px;
+      color: var(--red);
+      font-size: 0.86rem;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin-bottom: 14px;
+      color: var(--white);
+      font-size: 2.35rem;
+      font-weight: 900;
+      line-height: 1.08;
+    }
+
+    .section-heading p,
+    .about-copy p,
+    .card p,
+    .repository p,
+    .contact-card p {
+      color: var(--white-64);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(260px, 0.48fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .about-copy {
+      border-left: 2px solid var(--red);
+      padding: 8px 0 8px 24px;
+    }
+
+    .about-copy p {
+      max-width: 760px;
+      margin-bottom: 18px;
+      font-size: 1.02rem;
+    }
+
+    .about-copy p:last-child {
+      margin-bottom: 0;
+    }
+
+    .status-panel {
+      display: grid;
+      gap: 1px;
+      border: 1px solid var(--white-16);
+      border-radius: var(--radius);
+      background: var(--white-10);
+      overflow: hidden;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      background: var(--black-panel);
+      padding: 18px;
+    }
+
+    .status-row span {
+      color: var(--white-64);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .status-row strong {
+      color: var(--white);
+      font-size: 0.95rem;
+      text-align: right;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      position: relative;
+      min-height: 100%;
+      border: 1px solid var(--white-16);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.018));
+      box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
+      padding: 24px;
+      overflow: hidden;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), transparent);
+      opacity: 0.8;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--red-line);
+      background: linear-gradient(180deg, rgba(225, 6, 0, 0.09), rgba(255, 255, 255, 0.02));
+    }
+
+    .card-index {
+      color: var(--red);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .card h3 {
+      margin: 18px 0 10px;
+      color: var(--white);
+      font-size: 1.12rem;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    .projects {
+      background:
+        linear-gradient(90deg, rgba(225, 6, 0, 0.12), transparent 28%, transparent 72%, rgba(225, 6, 0, 0.08)),
+        rgba(0, 0, 0, 0.56);
+      border-top: 1px solid var(--white-10);
+      border-bottom: 1px solid var(--white-10);
+    }
+
+    .philosophy-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .philosophy-list li {
+      border: 1px solid var(--white-16);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--white);
+      font-size: 0.98rem;
+      font-weight: 800;
+      padding: 18px;
+    }
+
+    .philosophy-list li::before {
+      content: "";
+      display: block;
+      width: 22px;
+      height: 2px;
+      margin-bottom: 14px;
+      background: var(--red);
+    }
+
+    .repository {
+      display: grid;
+      grid-template-columns: minmax(0, 0.86fr) minmax(280px, 0.5fr);
+      gap: 28px;
+      align-items: center;
+      border: 1px solid var(--white-16);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(225, 6, 0, 0.16), rgba(255, 255, 255, 0.035) 42%, rgba(0, 0, 0, 0.62)),
+        var(--black-panel);
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .repository h2 {
+      margin-bottom: 12px;
+    }
+
+    .repo-box {
+      border: 1px solid var(--white-16);
+      border-radius: var(--radius);
+      background: rgba(0, 0, 0, 0.62);
+      padding: 22px;
+    }
+
+    .repo-label {
+      margin-bottom: 10px;
+      color: var(--white-64);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.86rem;
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    .repo-url {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 850;
+      word-break: break-word;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .contact-card {
+      border: 1px solid var(--white-16);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.035);
+      padding: 22px;
+      transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .contact-card:hover,
+    .contact-card:focus-within {
+      transform: translateY(-3px);
+      border-color: var(--red-line);
+      background: var(--red-soft);
+    }
+
+    .contact-card h3 {
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .contact-card p {
+      margin-bottom: 12px;
+      font-size: 0.92rem;
+    }
+
+    .contact-card a {
+      color: var(--white);
+      font-weight: 850;
+      word-break: break-word;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--white-10);
+      background: var(--black);
+      padding: 34px 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+    }
+
+    .footer-brand {
+      margin-bottom: 4px;
+      font-size: 1.08rem;
+      font-weight: 900;
+    }
+
+    .footer-tagline,
+    .footer-note,
+    .footer-meta {
+      margin: 0;
+      color: var(--white-64);
+      font-size: 0.92rem;
+    }
+
+    .footer-tagline strong {
+      color: var(--white);
+    }
+
+    .footer-meta {
+      text-align: right;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .about-grid,
+      .repository {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero::before {
+        background:
+          linear-gradient(180deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.98)),
+          url("assets/ssro-lab-banner.png") center 34px / 880px auto no-repeat;
+      }
+
+      .hero-panel {
+        max-width: 420px;
+      }
+
+      .grid.four,
+      .philosophy-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid.three,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav-wrap {
+        min-height: 68px;
+        width: min(var(--max), calc(100vw - 28px));
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 68px;
+        left: 14px;
+        right: 14px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        border: 1px solid var(--white-16);
+        border-radius: var(--radius);
+        background: rgba(0, 0, 0, 0.96);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .nav-links.is-open {
+        display: flex;
+      }
+
+      .nav-links a {
+        border-radius: 0;
+        border-width: 0 0 1px;
+        border-color: var(--white-10);
+        padding: 14px 16px;
+      }
+
+      .container {
+        width: min(var(--max), calc(100vw - 28px));
+      }
+
+      .section {
+        padding: 68px 0;
+      }
+
+      .hero {
+        padding: 56px 0 44px;
+      }
+
+      h1 {
+        font-size: 3.05rem;
+        line-height: 1;
+      }
+
+      h2 {
+        font-size: 1.66rem;
+        max-width: 16ch;
+      }
+
+      .primary-tagline {
+        font-size: 1.14rem;
+      }
+
+      .hero-intro {
+        font-size: 1rem;
+        max-width: 32ch;
+      }
+
+      .hero-panel {
+        display: none;
+      }
+
+      .about-copy {
+        padding-left: 18px;
+      }
+
+      .repository {
+        padding: 24px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-meta {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .brand-sub {
+        display: none;
+      }
+
+      h1 {
+        font-size: 2.26rem;
+      }
+
+      .actions,
+      .actions .button {
+        width: 100%;
+      }
+
+      .grid.four,
+      .philosophy-list {
+        grid-template-columns: 1fr;
+      }
+
+      .status-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .status-row strong {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand-link" href="#top" aria-label="SSRO Labs home">
+        <img class="brand-mark" src="assets/ssro-labs-icon.png" alt="SSRO Labs shield icon">
+        <span class="brand-copy">
+          <span class="brand-name">SSRO // Labs</span>
+          <span class="brand-sub">Where Security Meets Automation</span>
+        </span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="site-nav" aria-expanded="false">
+        <span aria-hidden="true"></span>
+      </button>
+
+      <nav class="nav-links" id="site-nav" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#focus">Focus</a>
+        <a href="#projects">Projects</a>
+        <a href="#repository">Repository</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Non-Profit Cybersecurity Lab</p>
+          <h1 id="hero-title">SSRO // Labs</h1>
+          <p class="primary-tagline">Where Security Meets Automation</p>
+          <p class="secondary-tagline">Exploit • Automate • Secure</p>
+          <p class="hero-intro">
+            A personal non-profit initiative for publishing self-built cybersecurity tools,
+            scripts, automation workflows, practical solutions, and research experiments.
+          </p>
+          <div class="actions" aria-label="Primary actions">
+            <a class="button primary" href="#projects">Explore Projects</a>
+            <a class="button secondary" href="#repository">View Tools</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="SSRO Labs visual identity">
+          <img src="assets/ssro-labs-icon.png" alt="SSRO Labs shield visual">
+          <div class="signal-list">
+            <div class="signal-item"><span>Mode</span><strong>Research</strong></div>
+            <div class="signal-item"><span>Build</span><strong>Tools</strong></div>
+            <div class="signal-item"><span>Purpose</span><strong>Learning</strong></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div>
+          <div class="section-heading">
+            <p class="section-kicker">About</p>
+            <h2 id="about-title">Independent security engineering, shared openly.</h2>
+          </div>
+          <div class="about-copy">
+            <p>
+              SSRO // Labs is built from personal passion for cybersecurity engineering,
+              offensive security concepts, automation, and practical research.
+            </p>
+            <p>
+              The initiative exists to document experiments and publish useful tools,
+              scripts, notes, and solutions for learning and community sharing.
+            </p>
+            <p>
+              It does not provide commercial services, client work, paid engagements,
+              consulting, or business offers.
+            </p>
+          </div>
+        </div>
+
+        <div class="status-panel" aria-label="Initiative status">
+          <div class="status-row"><span>Type</span><strong>Personal Initiative</strong></div>
+          <div class="status-row"><span>Model</span><strong>Non-Profit</strong></div>
+          <div class="status-row"><span>Output</span><strong>Shared Projects</strong></div>
+          <div class="status-row"><span>Focus</span><strong>Security Automation</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="focus" aria-labelledby="focus-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Focus Areas</p>
+          <h2 id="focus-title">Practical work across security, scripts, and automation.</h2>
+          <p>Short, useful, research-driven projects built to solve real technical problems.</p>
+        </div>
+
+        <div class="grid four">
+          <article class="card">
+            <span class="card-index">01</span>
+            <h3>Cybersecurity Tools</h3>
+            <p>Utilities for analysis, validation, testing, reporting, and security workflow support.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-index">02</span>
+            <h3>Automation Scripts</h3>
+            <p>Small, focused scripts that reduce repetitive work and improve technical consistency.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-index">03</span>
+            <h3>Security Research</h3>
+            <p>Notes, experiments, and controlled explorations of attack paths and defensive ideas.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-index">04</span>
+            <h3>Practical Solutions</h3>
+            <p>Engineering-first resources shaped around useful outcomes and reproducible learning.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section projects" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Featured Projects</p>
+          <h2 id="projects-title">Published work, prototypes, and experiments.</h2>
+          <p>Examples of the type of resources SSRO // Labs is designed to share.</p>
+        </div>
+
+        <div class="grid three">
+          <article class="card">
+            <span class="card-index">Project Type</span>
+            <h3>Security Utility Scripts</h3>
+            <p>Command-line helpers for reconnaissance, parsing, validation, and repeatable security checks.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-index">Project Type</span>
+            <h3>Workflow Automation Projects</h3>
+            <p>Automation flows for organizing data, speeding up tasks, and reducing manual friction.</p>
+          </article>
+
+          <article class="card">
+            <span class="card-index">Project Type</span>
+            <h3>Research-Based Security Solutions</h3>
+            <p>Practical outputs from experiments, technical notes, and self-directed security research.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="philosophy" aria-labelledby="philosophy-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Why This Exists</p>
+          <h2 id="philosophy-title">A lab for building, learning, and sharing.</h2>
+        </div>
+
+        <ul class="philosophy-list">
+          <li>Built from passion</li>
+          <li>Shared for learning</li>
+          <li>Practical security engineering</li>
+          <li>Automation with purpose</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="repository" aria-labelledby="repository-title">
+      <div class="container">
+        <div class="repository">
+          <div>
+            <p class="section-kicker">Repository</p>
+            <h2 id="repository-title">Explore published tools, scripts, and experiments.</h2>
+            <p>
+              The repository space is intended for practical code, technical notes,
+              automation experiments, and security-focused learning resources.
+            </p>
+          </div>
+
+          <div class="repo-box">
+            <div class="repo-label">GitHub placeholder</div>
+            <a class="repo-url" href="https://github.com/your-username" target="_blank" rel="noopener">github.com/your-username</a>
+            <a class="button primary" href="https://github.com/your-username" target="_blank" rel="noopener">Open Repository</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Contact</p>
+          <h2 id="contact-title">Simple channels for shared work and research updates.</h2>
+          <p>Use these placeholders for project notes, collaboration around learning, or published resources.</p>
+        </div>
+
+        <div class="contact-grid">
+          <article class="contact-card">
+            <h3>Email</h3>
+            <p>Professional contact placeholder.</p>
+            <a href="mailto:hello@ssrolabs.dev">hello@ssrolabs.dev</a>
+          </article>
+
+          <article class="contact-card">
+            <h3>GitHub</h3>
+            <p>Published tools and experiments.</p>
+            <a href="https://github.com/your-username" target="_blank" rel="noopener">github.com/your-username</a>
+          </article>
+
+          <article class="contact-card">
+            <h3>LinkedIn</h3>
+            <p>Optional professional profile.</p>
+            <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener">linkedin.com/in/your-profile</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-brand">SSRO // Labs</p>
+        <p class="footer-tagline"><strong>Where Security Meets Automation</strong> | Exploit • Automate • Secure</p>
+        <p class="footer-note">A non-profit personal initiative for sharing cybersecurity tools, scripts, and automation projects.</p>
+      </div>
+      <p class="footer-meta">&copy; <span id="year">2026</span> SSRO // Labs</p>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.querySelector(".menu-toggle");
+    const siteNav = document.querySelector("#site-nav");
+    const year = document.querySelector("#year");
+
+    if (year) {
+      year.textContent = new Date().getFullYear();
+    }
+
+    if (menuToggle && siteNav) {
+      menuToggle.addEventListener("click", () => {
+        const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+        menuToggle.setAttribute("aria-expanded", String(!isOpen));
+        siteNav.classList.toggle("is-open", !isOpen);
+      });
+
+      siteNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          menuToggle.setAttribute("aria-expanded", "false");
+          siteNav.classList.remove("is-open");
+        });
+      });
+    }
+  </script>
+</body>
+</html>
