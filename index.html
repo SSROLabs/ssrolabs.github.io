@@ -9,11 +9,16 @@
   <link rel="icon" href="assets/images/ssro-labs-icon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
   <canvas id="cyber-bg" aria-hidden="true"></canvas>
+  <div class="data-stream" aria-hidden="true">
+    <span>root@ssro:~# scan --tools --research</span>
+    <span>payload: scripts / automation / notes</span>
+    <span>status: non-profit lab workspace online</span>
+  </div>
 
   <header class="site-header">
     <a class="brand" href="#top" aria-label="SSRO Labs home">
@@ -40,14 +45,33 @@
           A personal initiative for publishing self-built cybersecurity tools,
           scripts, automation projects, and research notes.
         </p>
+        <div class="hero-readout" aria-label="Lab readout">
+          <span>MODE: NON-PROFIT</span>
+          <span>BUILD: TOOLS</span>
+          <span>STATUS: SHARED WORK</span>
+        </div>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#work">Explore Projects</a>
           <a class="btn btn-outline" href="#focus">View Tools</a>
         </div>
       </div>
 
-      <div class="hero-brand" aria-hidden="true">
-        <img src="assets/images/ssro-lab-banner.png" alt="">
+      <div class="hero-side" aria-hidden="true">
+        <div class="hero-brand">
+          <img src="assets/images/ssro-lab-banner.png" alt="">
+        </div>
+        <div class="terminal-card">
+          <div class="terminal-bar">
+            <span></span>
+            <span>lab://ssro</span>
+          </div>
+          <div class="terminal-lines">
+            <span><b>$</b> init security-automation</span>
+            <span><b>&gt;</b> loading tools, scripts, research</span>
+            <span><b>&gt;</b> access: open learning resources</span>
+            <span><b>&gt;</b> commercial_mode=false</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -124,6 +148,7 @@
           <p class="label">Repository</p>
           <h2>Tools, scripts, and shared experiments.</h2>
           <p>Code and notes will be published as open learning resources.</p>
+          <code class="repo-command">git clone https://github.com/ssrolabs</code>
         </div>
         <a class="btn btn-primary" href="https://github.com/ssrolabs" target="_blank" rel="noopener">
           github.com/ssrolabs
