@@ -426,7 +426,7 @@ h3 {
 .terminal-bar {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 34px;
   border-bottom: 1px solid var(--line);
   color: rgba(255, 255, 255, 0.74);
   font-family: var(--font-code);
@@ -437,6 +437,7 @@ h3 {
 .terminal-bar span:first-child {
   width: 9px;
   height: 9px;
+  flex: 0 0 37px;
   border-radius: 999px;
   background: var(--red);
   box-shadow: 14px 0 0 rgba(255, 255, 255, 0.5), 28px 0 0 rgba(255, 255, 255, 0.22);
