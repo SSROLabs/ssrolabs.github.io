@@ -602,8 +602,9 @@ h3 {
 }
 
 .contact-links a {
-  display: grid;
-  gap: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   flex: 1 1 220px;
   min-width: 0;
   border: 1px solid var(--line);
@@ -615,9 +616,13 @@ h3 {
   transition: 160ms ease;
 }
 
-.contact-links span {
+.contact-icon {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
   color: var(--muted);
-  font-size: 0.72rem;
+  fill: currentColor;
+  transition: 160ms ease;
 }
 
 .contact-links strong {
@@ -630,6 +635,11 @@ h3 {
   border-color: var(--red-line);
   background: rgba(255, 255, 255, 0.06);
   outline: none;
+}
+
+.contact-links a:hover .contact-icon,
+.contact-links a:focus-visible .contact-icon {
+  color: var(--red);
 }
 
 .site-footer {
